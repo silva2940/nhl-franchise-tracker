@@ -3,28 +3,19 @@
 <head>
   <title>NHL Franchise Tracker</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>NHL Franchise Tracker</h1>
+  <div class="container">
+    <h1>Franchise Tracker</h1>
 
-  <section>
-    <h2>Add a Team</h2>
-    <input type="text" id="teamName" placeholder="Team Name">
-    <button onclick="addTeam()">Add Team</button>
-  </section>
+    <form id="teamForm">
+      <input type="text" id="teamName" placeholder="Enter team name" required />
+      <button type="submit">Add Team</button>
+    </form>
 
-  <section>
-    <h2>Add a Player</h2>
-    <input type="text" id="playerName" placeholder="Player Name">
-    <input type="text" id="playerNumber" placeholder="Number">
-    <input type="text" id="playerPosition" placeholder="Position (e.g. LW)">
-    <button onclick="addPlayer()">Add Player</button>
-  </section>
-
-  <section>
-    <h2>Roster</h2>
-    <ul id="rosterList"></ul>
-  </section>
+    <div id="teams"></div>
+  </div>
 
   <script src="app.js"></script>
 </body>
