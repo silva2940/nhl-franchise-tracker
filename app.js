@@ -1,54 +1,52 @@
-const app = document.getElementById("root");
-let teams = [];
+let teams = JSON.parse(localStorage.getItem("teams")) || [];
+
+function saveTeams() {
+  localStorage.setItem("teams", JSON.stringify(teams));
+}
 
 function render() {
-  app.innerHTML = `
-    <h1>Franchise Tracker</h1>
-    <form id="teamForm">
-      <input type="text" id="teamName" placeholder="Enter team name" required />
-      <button type="submit">Add Team</button>
-    </form>
-    <div id="teams">
-      ${teams
-        .map(
-          (team, i) => `
-        <div>
-          <h2>${team.name}</h2>
-          <form onsubmit="addPlayer(event, ${i})">
-            <input type="text" placeholder="Name" id="playerName${i}" required />
-            <input type="text" placeholder="Position" id="playerPosition${i}" required />
-            <input type="number" placeholder="Number" id="playerNumber${i}" required />
-            <input type="number" placeholder="Goals" id="playerGoals${i}" />
-            <input type="number" placeholder="Assists" id="playerAssists${i}" />
-            <input type="number" placeholder="Points" id="playerPoints${i}" />
-            <input type="number" placeholder="Games Played" id="playerGames${i}" />
-            <input type="text" placeholder="Photo URL" id="playerPhoto${i}" />
-            <button type="submit">Add Player</button>
-          </form>
-          <ul>
-            ${team.players
-              .map(
-                (p) => `
-              <li>
-                <strong>#${p.number} ${p.name}</strong> - ${p.position}<br/>
-                G: ${p.goals}, A: ${p.assists}, P: ${p.points}, GP: ${p.games}
-                ${p.photo ? `<br/><img src="${p.photo}" alt="${p.name}" width="100"/>` : ""}
-              </li>
-            `
-              )
-              .join("")}
-          </ul>
-        </div>
-      `
-        )
-        .join("")}
-    </div>
-  `;
+  const container = document.getElementById("teams");
+  container.innerHTML = "";
+
+  teams.forEach((team, i) => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <h2>${team.name}</h2>
+      <form onsubmit="addPlayer(event, ${i})">
+        <input type="text" id="playerName${i}" placeholder="Name" required />
+        <input type="text" id="playerPosition${i}" placeholder="Position" required />
+        <input type="number" id="playerNumber${i}" placeholder="Number" required />
+        <input type="number" id="playerGoals${i}" placeholder="Goals" />
+        <input type="number" id="playerAssists${i}" placeholder="Assists" />
+        <input type="number" id="playerPoints${i}" placeholder="Points" />
+        <input type="number" id="playerGames${i}" placeholder="Games Played" />
+        <input type="text" id="playerPhoto${i}" placeholder="Photo URL" />
+        <button type="submit">Add Player</button>
+      </form>
+      <ul>
+        ${team.players
+          .map(
+            (p) => `
+          <li>
+            <strong>#${p.number} ${p.name}</strong> - ${p.position}<br/>
+            G: ${p.goals}, A: ${p.assists}, P: ${p.points}, GP: ${p.games}
+            ${p.photo ? `<br/><img src="${p.photo}" alt="${p.name}"/>` : ""}
+          </li>
+        `
+          )
+          .join("")}
+      </ul>
+    `;
+    container.appendChild(div);
+  });
 
   document.getElementById("teamForm").onsubmit = (e) => {
     e.preventDefault();
-    const name = document.getElementById("teamName").value;
+    const name = document.getElementById("teamName").value.trim();
+    if (!name) return;
     teams.push({ name, players: [] });
+    document.getElementById("teamName").value = "";
+    saveTeams();
     render();
   };
 }
@@ -75,6 +73,7 @@ function addPlayer(e, teamIndex) {
     photo,
   });
 
+  saveTeams();
   render();
 }
 
