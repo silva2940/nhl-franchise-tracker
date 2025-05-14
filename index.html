@@ -1,1 +1,31 @@
-<!DOCTYPE html><html><head><title>Franchise Tracker</title></head><body><h1>Franchise Tracker 2.0 Coming Soon</h1></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NHL Franchise Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>NHL Franchise Tracker</h1>
+
+  <section>
+    <h2>Add a Team</h2>
+    <input type="text" id="teamName" placeholder="Team Name">
+    <button onclick="addTeam()">Add Team</button>
+  </section>
+
+  <section>
+    <h2>Add a Player</h2>
+    <input type="text" id="playerName" placeholder="Player Name">
+    <input type="text" id="playerNumber" placeholder="Number">
+    <input type="text" id="playerPosition" placeholder="Position (e.g. LW)">
+    <button onclick="addPlayer()">Add Player</button>
+  </section>
+
+  <section>
+    <h2>Roster</h2>
+    <ul id="rosterList"></ul>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
